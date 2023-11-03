@@ -1,7 +1,7 @@
 import { StoreData,store, selectCustomerWithId, CustomerPOJO, deleteCustomerAction,updateCustomerAction, purchasesSelector, customersSelector, selectProductWithId, productsSelector } from './redux_nonsense';
 import { ReactElement, useState } from "react";
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Purchase } from './redux_nonsense';
 import { useParams } from 'react-router-dom';
 import { ProductsCombobox } from './Products';
@@ -28,7 +28,6 @@ export class Customer{
 		const [isBuying, isBuyingSetter] = useState(false);
 
 		if (purchases_this_customer_bought.length == 0){
-			console.log("Empty");
 			return <tr>
 				<td>{this.createLink()}</td>
 				<td>&nbsp;</td>
@@ -39,7 +38,6 @@ export class Customer{
 				</td>
 			</tr>;
 		} else {
-			console.log("Non Empty");
 			return <tr>
 				<td>{this.createLink()}</td>
 				
@@ -96,17 +94,11 @@ export class Customer{
 			<input type="text" value={name_state} onChange={e=>setName(e.target.value)}/>
 
 			<button onClick={()=>{
-				let valid=true;
-
-				if (valid){
-					let new_customer=new Customer(
-						this._id,
-						name_state
-					);
-					console.log(new_customer);
-					store.dispatch(updateCustomerAction(new_customer.toPOJO()));
-
-				}
+				const new_customer=new Customer(
+					this._id,
+					name_state
+				);
+				store.dispatch(updateCustomerAction(new_customer.toPOJO()));
 			}
 			}>Update</button><br/>
 

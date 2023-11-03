@@ -1,4 +1,9 @@
-import { createSelector,configureStore, Action, createAction, Store } from '@reduxjs/toolkit';
+import {
+	createSelector,
+	configureStore,
+	Action,
+	createAction
+} from '@reduxjs/toolkit';
 import { Product } from './Products.tsx';
 import { Customer } from './Customers.tsx';
 export enum FirestoreState {
@@ -50,14 +55,7 @@ function filterFirebasable<T>(firebasables: Firebaseable<T>[]) : T[]{
 }
 
 export const productsSelector = createSelector(
-	[(store_data:StoreData) => {
-		
-		console.log(store_data.products);
-		const products=filterFirebasable(store_data.products);
-		console.log(products);
-		return products;
-
-	}],
+	[(store_data:StoreData) => filterFirebasable(store_data.products)],
 	(products : ProductPOJO[])=>products.map(product=>Product.fromPOJO(product))
 );
 
@@ -138,7 +136,6 @@ export const store=configureStore({reducer:
 				product_id : action.payload.product.id,
 				date_of_purchase : Date.now()
 			};
-			console.log(purchase);
 			result = {
 				...data_accumulator,
 				purchases : [...data_accumulator.purchases, {obj: purchase, storestate:FirestoreState.UPDATE}]
@@ -208,7 +205,6 @@ export const store=configureStore({reducer:
 				isvalid : true
 			};
 		}
-		console.log(result);
 		return result;
 	}
 });

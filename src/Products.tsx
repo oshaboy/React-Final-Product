@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import {  StoreData,productsSelector,store, updateProductAction,purchasesSelector, buyAction, customersSelector } from './redux_nonsense';
+import { StoreData,productsSelector,store, updateProductAction,purchasesSelector, buyAction, customersSelector } from './redux_nonsense';
 import { ProductPOJO , deleteProductAction} from './redux_nonsense';
 import { ReactElement, useState } from "react";
 import { Link } from 'react-router-dom';
@@ -103,7 +103,6 @@ export class Product{
 					setQuantityError(false);
 				}
 				let parsed_price = price_state.match(/^₪?(\d+)\.(\d\d)$/);
-				console.log(parsed_price);
 				if (!parsed_price){
 					valid=false
 					setPriceError(true);
@@ -118,7 +117,6 @@ export class Product{
 							parseInt(parsed_price!![2]),
 						parseInt(quantity_state)
 					);
-					console.log(new_product);
 					store.dispatch(updateProductAction(new_product.toPOJO()));
 
 				}
@@ -193,7 +191,6 @@ export function	ProductsCombobox(properties : {
 	</select>
 	<button onClick={()=>{
 		properties.isBuyingSetter(false);
-		console.log("here");
 		store.dispatch(buyAction({
 			product: products.find(product=>productId==product.id)!!.toPOJO(),
 			customer: properties.customer.toPOJO()

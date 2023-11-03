@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { customersSelector, productsSelector, purchasesSelector, StoreData } from "./redux_nonsense";
+import { customersSelector, productsSelector, purchasesSelector } from "./redux_nonsense";
 import { useState } from "react";
 import { Customer } from "./Customers";
 function SearchBox(
@@ -36,7 +36,8 @@ function SearchBox(
 	} else {
 		return selectProducts(customers.find(customer=>customer.id==properties.customerId)!!);
 	}
-	})()}</tbody></table>;
+	})()}
+	</tbody></table>;
 }
 export function PurchasesPage() {
 	const products = useSelector(productsSelector);

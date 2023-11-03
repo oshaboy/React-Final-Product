@@ -27,7 +27,6 @@ export function downloadFirebase(){
 	onSnapshot(
 		query(collection(database,"products")),
 		(snapshot) => {
-			console.log(snapshot.docs);
 			store.dispatch(loadProductDatabaseAction(snapshot.docs.map(
 				product_doc=>product_doc.data() as ProductPOJO
 			)));
@@ -37,7 +36,6 @@ export function downloadFirebase(){
 	onSnapshot(
 		query(collection(database,"customers")),
 		(snapshot) => {
-			console.log(snapshot.docs);
 			store.dispatch(loadCustomerDatabaseAction(snapshot.docs.map(
 				customer_doc=>customer_doc.data() as CustomerPOJO
 			)));
@@ -47,7 +45,6 @@ export function downloadFirebase(){
 	onSnapshot(
 		query(collection(database,"purchases")),
 		(snapshot) => {
-			console.log(snapshot.docs);
 			store.dispatch(loadPurchasesDatabaseAction(snapshot.docs.map(
 				purchase_doc=>{
 					const raw_date : Timestamp = purchase_doc.data().date_of_purchase;
@@ -61,8 +58,7 @@ export function downloadFirebase(){
 export function syncFirebase(){
 	let promises : Promise<any>[] = [];
 	const update=(arr: Firebaseable<any>[], db_name : string)=>{
-		for (const idx in arr){
-			const thing = arr[idx];
+		for (const thing of arr){
 			switch (thing.storestate){
 				case FirestoreState.UPDATE:
 					promises.push(setDoc(doc(database, db_name, thing.obj.id.toString()),thing.obj));
@@ -78,6 +74,7 @@ export function syncFirebase(){
 			}
 		}
 	}
+
 	update(store.getState().products, "products");
 	update(store.getState().customers, "customers");
 	update(store.getState().purchases.map(
@@ -90,6 +87,7 @@ export function syncFirebase(){
 			};
 		}
 	), "purchases");
+
 	if (promises.length!==0)
 		Promise.all(promises).then(()=>store.dispatch(databasePostSyncAction()));
 }
