@@ -17,6 +17,7 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 export const database = getFirestore(initializeApp(firebaseConfig));
+/*Create the Firebase Snapshots*/
 export function downloadFirebase(){
 	let complete_count = 0;
 	const onComplete = ()=>{
@@ -55,6 +56,7 @@ export function downloadFirebase(){
 		}
 	);
 }
+/*Sync the firebase server with the redux*/
 export function syncFirebase(){
 	let promises : Promise<any>[] = [];
 	const update=(arr: Firebaseable<any>[], db_name : string)=>{

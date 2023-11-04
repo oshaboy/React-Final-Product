@@ -48,12 +48,10 @@ export class Product{
 		const [isBuying, isBuyingSetter] = useState(false);
 
 		return <>
-			<tr>
-			<td>
-			<Link to={this._id.toString()}>{this._name}</Link><br/>
-			
-			Price: {this.formatPrice()}<br/>
-			Stock: {this._quantity}<br/>
+			<tr><td>
+				<Link to={this._id.toString()}>{this._name}</Link><br/>
+				Price: {this.formatPrice()}<br/>
+				Stock: {this._quantity}<br/>
 			</td>
 			
 			{purchases_of_this_product.map(
@@ -83,12 +81,15 @@ export class Product{
 			<button onClick={
 				()=>{store.dispatch(deleteProductAction(this.toPOJO()))}
 			}>Delete</button><br/>
-			<input type="text" value={name_state} onChange={e=>setName(e.target.value)}/>
+			<input type="text"
+				value={name_state}
+				onChange={e=>setName(e.target.value)}
+			/>
 			<input type="text"
 				value={price_state}
 				style={price_error?{backgroundColor:"red"}:{}}
-				onChange={e=>{setPrice(e.target.value)}
-			}/>
+				onChange={e=>{setPrice(e.target.value)}}
+			/>
 			<input type="text"
 				value={quantity_state}
 				style={quantity_error?{backgroundColor:"red"}:{}}
@@ -149,29 +150,14 @@ export class Product{
 	get name() : string{
 		return this._name;
 	}
-	/*
-	PurchasePanel(){
-		const purchases_of_this_product = useSelector((store :StoreData)=>purchasesSelector(store, this));
-		
-		return <p>
-		{purchases_of_this_product.map(
-			purchase => <>
-			{useSelector((data:StoreData)=>selectCustomerWithId(data,purchase.customer_id))!!.createLink()} <br/>
-			{new Date(purchase.date_of_purchase).toUTCString()}
-			<button>Add</button>
-			</>
-		)}
-		</p>
-	}
-	*/
-
-
 };
+
 export function ProductsPage() {
 	const products=useSelector(productsSelector);
 	return <>
-		<table><tbody>{products.map(product=>product.createElement())}</tbody></table>
-		<br/>
+		<table><tbody>
+			{products.map(product=>product.createElement())}
+		</tbody></table><br/>
 	</>;
 }
 export function EditProductPage(){
@@ -179,6 +165,7 @@ export function EditProductPage(){
 	const product=id?useSelector((data:StoreData)=>selectProductWithId(data, Number.parseInt(id))):undefined;
 	return product?product.createEditPage():"Product Not Found";
 }
+
 export function	ProductsCombobox(properties : {
 	customer : Customer,
 	isBuyingSetter : React.Dispatch<React.SetStateAction<boolean>>
@@ -186,15 +173,15 @@ export function	ProductsCombobox(properties : {
 	const products=useSelector(productsSelector);
 	const [productId, productIdSetter] = useState(0);
 	return <>
-	<select onChange={e=>productIdSetter(Number.parseInt(e.target.value))}>
-		{products.map(product=><option value={product.id}>{product._name}</option>)}
-	</select>
-	<button onClick={()=>{
-		properties.isBuyingSetter(false);
-		store.dispatch(buyAction({
-			product: products.find(product=>productId==product.id)!!.toPOJO(),
-			customer: properties.customer.toPOJO()
-		}))
-	}}>Buy</button>
+		<select onChange={e=>productIdSetter(Number.parseInt(e.target.value))}>
+			{products.map(product=><option value={product.id}>{product._name}</option>)}
+		</select>
+		<button onClick={()=>{
+			properties.isBuyingSetter(false);
+			store.dispatch(buyAction({
+				product: products.find(product=>productId==product.id)!!.toPOJO(),
+				customer: properties.customer.toPOJO()
+			}))
+		}}>Buy</button>
 	</>
 }

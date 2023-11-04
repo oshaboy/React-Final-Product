@@ -19,7 +19,6 @@ export class Customer{
 
 	
 	createLink() : ReactElement {
-
 		return <Link to={"/customers/"+this._id.toString()}>{this._name}</Link>;
 	}
 	createTableRow() : ReactElement{
@@ -73,8 +72,7 @@ export class Customer{
 		};
 	}
 	static fromPOJO(pojs : CustomerPOJO) : Customer {
-		let result = new Customer(pojs.id, pojs.name);
-		return result;
+		return new Customer(pojs.id, pojs.name);
 	}
 
 	get id() : number{

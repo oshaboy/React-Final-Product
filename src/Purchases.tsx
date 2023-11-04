@@ -51,28 +51,28 @@ export function PurchasesPage() {
 	const [toSearch,toSearchSetter] = useState(false);
 	
 	return <>
-	<select onChange={e=>productIdSetter(Number.parseInt(e.target.value))}>
-		<option value={-1}>&nbsp;</option>
-		{products.map(product=><option value={product.id}>{product._name}</option>)}
-	</select>
-	<select onChange={e=>customerIdSetter(Number.parseInt(e.target.value))}>
-		<option value={-1}>&nbsp;</option>
-		{customers.map(customer=><option value={customer.id}>{customer._name}</option>)}
-	</select>
-	<input onChange={e=>dateSearchBoxSetter(e.target.value)} type="text"/>
-	<button
-		onClick={()=>{
-			toSearchSetter(true);
-			productIdSearchSetter(productId);
-			customerIdSearchSetter(customerId);
-			dateSearchBoxSearchSetter(dateSearchBox);
-		}}
-	>Search</button><br/>
-	{toSearch?<SearchBox
-		productId={productIdSearch}
-		customerId={customerIdSearch}
-		dateSearchBox={dateSearchBoxSearch}
-	/>:<></>}
+		<select onChange={e=>productIdSetter(Number.parseInt(e.target.value))}>
+			<option value={-1}>&nbsp;</option>
+			{products.map(product=><option value={product.id}>{product._name}</option>)}
+		</select>
+		<select onChange={e=>customerIdSetter(Number.parseInt(e.target.value))}>
+			<option value={-1}>&nbsp;</option>
+			{customers.map(customer=><option value={customer.id}>{customer._name}</option>)}
+		</select>
+		<input onChange={e=>dateSearchBoxSetter(e.target.value)} type="text"/>
+		<button
+			onClick={()=>{
+				toSearchSetter(true);
+				productIdSearchSetter(productId);
+				customerIdSearchSetter(customerId);
+				dateSearchBoxSearchSetter(dateSearchBox);
+			}}
+		>Search</button><br/>
+		{toSearch?<SearchBox
+			productId={productIdSearch}
+			customerId={customerIdSearch}
+			dateSearchBox={dateSearchBoxSearch}
+		/>:<></>}
 	</>;
 }
 
@@ -80,12 +80,12 @@ export function PurchasePanel(){
 	const purchases = useSelector(purchasesSelector);
 	const customers = useSelector(customersSelector);
 	return <p>
-	{purchases.map(
-		purchase => <>
-		{customers.find(customer=>customer.id==purchase.customer_id)!!.createLink()} <br/>
-		{new Date(purchase.date_of_purchase).toUTCString()}
-		<button>Add</button>
-		</>
-	)}
+		{purchases.map(
+			purchase => <>
+			{customers.find(customer=>customer.id==purchase.customer_id)!!.createLink()} <br/>
+			{new Date(purchase.date_of_purchase).toUTCString()}
+			<button>Add</button>
+			</>
+		)}
 	</p>
 }
